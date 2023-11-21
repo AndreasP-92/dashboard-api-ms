@@ -1,0 +1,9 @@
+
+
+
+class UserController{
+
+    constructor(){}
+
+    
+}
