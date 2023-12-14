@@ -13,12 +13,12 @@ const sequelizeConnection  = new Sequelize(SQLDB, sqlUser, sqlPass, {
     host: sqlHost,
     port: sqlPort,
     dialect: 'postgres',
-    dialectOptions: {
-        ssl: {
-            require: ssl,
-            rejectUnauthorized: false,
-        },
-    },
+    // dialectOptions: {
+    //     ssl: {
+    //         require: ssl,
+    //         rejectUnauthorized: false,
+    //     },
+    // },
     pool: {
         max: 5,
         min: 0,

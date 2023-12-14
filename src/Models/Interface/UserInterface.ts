@@ -6,6 +6,8 @@ interface User {
   Lastname: string;
   Password: string;
   IsActive: boolean;
+  UserRoleId: Number;
+  CompanyId: Number;
 }
 
 export default User;

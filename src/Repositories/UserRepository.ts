@@ -1,9 +1,12 @@
 import bcrypt from 'bcrypt';
 
 import UserModel from '../Models/DatabaseModels/UserModel.js';
+import CompanyModel from '../Models/DatabaseModels/CompanyModel.js'
+import UserRoleModel from '../Models/DatabaseModels/UserRoleModel.js';
 import { ObjectToReturn } from '../Models/Types/ObjectToReturnModel.js';
 import LogRepository from "./LogRepositroy.js";
 import UserInterface from '../Models/Interface/UserInterface.js';
+import ValidatedUserToReturnModel from '../Models/Types/ValidatedUserToReturnModel.js';
 
 class UserRepository{
     Id: number;
@@ -21,17 +24,19 @@ class UserRepository{
 
     }
 
-    setUser(user: UserInterface){
+    setUser(user: UserInterface): void{
         this.Id = user.Id;
         this.Email = user.Email;
         this.Password = user.Password;
         this.Firstname = user.Firstname;
         this.Lastname = user.Lastname;
+        this.user = user;
     }
 
-    async createUser(){    
+    async createUser(): Promise<ObjectToReturn> {    
         try{
             this.Password = await bcrypt.hash(this.Password, 10);
+            this.user.Password = this.Password;
             const data = await UserModel.create(this.user);
             this.objectToReturn.object = data;
 
@@ -54,9 +59,14 @@ class UserRepository{
     
     }
 
-    async getUserById(Id: number){
+    async getUserById(Id: number): Promise<ObjectToReturn>{
         try{
-            const data = await UserModel.findByPk(this.Id);
+            const data = await UserModel.findByPk(Id,{
+                include:[
+                    {model: UserRoleModel},
+                    {model: CompanyModel}
+                ]
+            });
 
             this.objectToReturn.object = data;
 
@@ -67,16 +77,22 @@ class UserRepository{
             this.objectToReturn.status = 405;
 
             this.log.shortMessage = "User not found";
-            this.log.fullMessage = "User not found with Id: " + this.Id;
+            this.log.fullMessage = "User not found with Id: " + Id;
             await this.log.insertLog();
 
             return this.objectToReturn;
         }
     }
 
-    async getUserByEmail(email: string) {
+    async getUserByEmail(email: string): Promise<ObjectToReturn> {
         try {
-            const data = await UserModel.findOne({ where: { Email: email } });
+            const data = await UserModel.findOne({ 
+                where: { Email: email },
+                include: [
+                    {model: UserRoleModel},
+                    {model: CompanyModel}
+                ]
+            });
 
             this.objectToReturn.object = data;
 
@@ -94,9 +110,14 @@ class UserRepository{
         }
     }
 
-    async updateUserById(){
+    async updateUserById(): Promise<ObjectToReturn>{
         try{
-            const data = await UserModel.update(this, {where: {Id: this.Id}});
+            this.user.Password = await bcrypt.hash(this.Password, 10);
+            const data = await UserModel.update(this.user, 
+                {
+                    where: {Id: this.Id},
+                }
+            );
 
             this.objectToReturn.object = data;
 
@@ -114,7 +135,7 @@ class UserRepository{
         }
     }
 
-    async deleteUserById(Id: number){
+    async deleteUserById(Id: number): Promise<ObjectToReturn>{
         try{
             const data = await UserModel.destroy({where: {Id: Id}});
 
@@ -134,9 +155,14 @@ class UserRepository{
         }
     }
 
-    async getAllUsers() {
+    async getAllUsers(): Promise<ObjectToReturn> {
         try {
-            const data = await UserModel.findAll();
+            const data = await UserModel.findAll({
+                include:[
+                    {model: UserRoleModel},
+                    {model: CompanyModel}
+                ]
+            });
 
             this.objectToReturn.object = data;
 
@@ -154,27 +180,22 @@ class UserRepository{
         }
     }
 
-    async valIdateUser (user: UserInterface) {
+    async validateUser (email:string, password:string): Promise<ValidatedUserToReturnModel> {
         try {
-            const data = await UserModel.findOne({where: { Email: user.Email}});
+            const data = await UserModel.findOne({
+                where: { Email: email},
+                include: [
+                    {model: UserRoleModel},
+                    {model: CompanyModel}
+                ]
+            });
 
-            const valIdPassword = await bcrypt.compare(user.Password, data.Password)
-            console.log(data.Id)
-            return {
-                userId : data.Id,
-                valIdPassword: valIdPassword,
-                success: true,
-                object: data,
-                msg: ""
-            }
+            const valIdPassword = await bcrypt.compare(password, data.Password)
+
+            return new ValidatedUserToReturnModel(data.Id, valIdPassword, true, data, "", 200)
         }
         catch (error) {
-            return {
-                success: false,
-                Object: {},
-                msg: "OOPS, something went wrong valIdateUser" + error,
-                status: 405
-            }
+            return new ValidatedUserToReturnModel(0, false, false, {}, "OOPS, something went wrong valIdateUser" + error, 405)
         }
     }
 }
