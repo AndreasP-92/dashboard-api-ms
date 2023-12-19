@@ -10,8 +10,8 @@ import router from './Routes/RoutesProvider.js';
 
 dotenv.config();
 
-if(process.env.ENVIRONMENT == "dev"){
-  // syncDb.synchronizeDatabase();
+if(parseInt(process.env.SQL_SYNC_DATA) === 1){
+  syncDb.synchronizeDatabase();
 }
 
 const app = express();

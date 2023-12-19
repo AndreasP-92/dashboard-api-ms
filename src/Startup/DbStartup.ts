@@ -15,7 +15,7 @@ async function synchronizeDatabase() {
     await LogModel.sync({ alter: true }); 
 
     // Create bulk data
-    if(parseInt(process.env.DEV_SQL_CREATE_TEST_DATA) === 1){
+    if(parseInt(process.env.SQL_CREATE_TEST_DATA) === 1){
       const roles = [
         { RoleName: 'Admin' },
         { RoleName: 'User' },

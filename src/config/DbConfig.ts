@@ -3,11 +3,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const ssl: boolean = process.env.ENVIRONMENT == "dev" ? false : true;
-const sqlHost: string = process.env.ENVIRONMENT == "dev" ? process.env.DEV_SQL_HOST ?? "" : process.env.SQL_HOST ?? "";
-const sqlPort: number = process.env.ENVIRONMENT == "dev" ? Number(process.env.DEV_SQL_PORT) ?? 0 : Number(process.env.SQL_PORT) ?? 0;
-const sqlUser: string = process.env.ENVIRONMENT == "dev" ? process.env.DEV_SQL_USER ?? "" : process.env.SQL_USER ?? "";
-const sqlPass: string = process.env.ENVIRONMENT == "dev" ? process.env.DEV_SQL_PASS ?? "" : process.env.SQL_PASS ?? "";
-const SQLDB: string = process.env.ENVIRONMENT == "dev" ? process.env.DEV_SQL_DB ?? "" : process.env.SQL_DB ?? "";
+const sqlHost: string = process.env.ENVIRONMENT == "dev" ? process.env.DEV_SQL_HOST ?? "" : process.env.PROD_SQL_HOST ?? "";
+const sqlPort: number = process.env.ENVIRONMENT == "dev" ? Number(process.env.DEV_SQL_PORT) ?? 0 : Number(process.env.PROD_SQL_PORT) ?? 0;
+const sqlUser: string = process.env.ENVIRONMENT == "dev" ? process.env.DEV_SQL_USER ?? "" : process.env.PROD_SQL_USER ?? "";
+const sqlPass: string = process.env.ENVIRONMENT == "dev" ? process.env.DEV_SQL_PASS ?? "" : process.env.PROD_SQL_PASS ?? "";
+const SQLDB: string = process.env.ENVIRONMENT == "dev" ? process.env.DEV_SQL_DB ?? "" : process.env.PROD_SQL_DB ?? "";
 
 const sequelizeConnection  = new Sequelize(SQLDB, sqlUser, sqlPass, {
     host: sqlHost,
