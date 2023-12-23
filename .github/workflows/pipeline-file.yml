@@ -15,12 +15,15 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v2
 
-      - name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v2'
+      - name: echo environment
+        run: echo ${{ secrets.SERVICE_USER_CREDS }}
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
         with:
           project_id: hovedopgave-23
           service_account: dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
-          credentials_json: '${{ secrets.SERVICE_USER_CREDS }}'
+          credentials_json: ${{ secrets.SERVICE_USER_CREDS }}
 
       # - name: Upload to Artifact Registry
       #   run: |
