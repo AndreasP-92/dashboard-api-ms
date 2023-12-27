@@ -41,8 +41,8 @@ jobs:
 
       - name: Push Docker image to Azure Container Registry
         run: |
-          docker tag ${{ env.IMAGE_NAME }}:latest ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}:1
-          docker push ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}:1
+          docker tag ${{ env.IMAGE_NAME }}:latest us-central1-docker.pkg.dev-${{ env.IMAGE_NAME }}:1
+          docker push us-central1-docker.pkg.dev-${{ env.IMAGE_NAME }}:1
 
 
 
