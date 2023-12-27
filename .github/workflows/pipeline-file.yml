@@ -4,6 +4,7 @@ env:
   IMAGE_NAME: dashboard-api-ms
   BRANCH_NAME: ${{ github.ref}}
   BUILD_TAG: ${{ github.sha }}
+  GOOGLE_APPLICATION_CREDENTIALS: '${{ secrets.SERVICE_USER_CREDS }}'
 
 on:
   push:
@@ -31,9 +32,18 @@ jobs:
           project_id: '${{ env.PROJECT_ID }}'
 
 
-      - name: 'Docker auth'
-        run: |-
-          gcloud auth configure-docker us-central1-docker.pkg.dev
+      # - name: 'Docker auth'
+      #   run: |-
+      #     gcloud auth configure-docker us-central1-docker.pkg.dev
+
+      
+      - name: Docker Auth
+        run: |
+          gcloud config set artifacts/repository  dashboard-repo
+          gcloud config set artifacts/location us-central1-docker.pkg.dev
+          gcloud config set account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
+          
+          gcloud auth activate-service-account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com --key-file=$GOOGLE_APPLICATION_CREDENTIALS --project=hovedopgave-23
 
       - name: Build image
         run: docker compose -f docker-compose.yml build
@@ -48,15 +58,6 @@ jobs:
 
 
 
-      # - name: Upload to Artifact Registry
-      #   run: |
-      #     gcloud config set artifacts/repository hovedopgave-23
-      #     gcloud config set artifacts/location us-central1-docker.pkg.dev
-      #     gcloud config set account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
-          
-      #     gcloud auth activate-service-account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com --key-file=$GOOGLE_APPLICATION_CREDENTIALS --project=norrin-radd
-          
-      #     gcloud artifacts print-settings python > ~/.pypirc
 
       # - name: echo docker-compose
       #   run: cat docker-compose.yaml
