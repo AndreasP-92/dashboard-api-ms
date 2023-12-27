@@ -25,13 +25,36 @@ jobs:
           service_account: dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
           credentials_json: ${{ secrets.SERVICE_USER_CREDS }}
 
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+        with:
+          project_id: '${{ env.PROJECT_ID }}'
+
+
+      - name: 'Docker auth'
+        run: |-
+          gcloud auth configure-docker us-central1-docker.pkg.dev
+
+      - name: Build image
+        run: docker compose -f docker-compose.yml build
+
+
+      - name: Push Docker image to Azure Container Registry
+        run: |
+          docker tag ${{ env.IMAGE_NAME }}:latest ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}:${{ env.BUILD_TAG }}
+          docker push ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}:${{ env.BUILD_TAG }}
+
+
+
+
+
       # - name: Upload to Artifact Registry
       #   run: |
-      #     gcloud config set artifacts/repository foo
-      #     gcloud config set artifacts/location us-central1
-      #     gcloud config set account github-gcr-service-account@norrin-radd.iam.gserviceaccount.com
+      #     gcloud config set artifacts/repository hovedopgave-23
+      #     gcloud config set artifacts/location us-central1-docker.pkg.dev
+      #     gcloud config set account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
           
-      #     gcloud auth activate-service-account github-gcr-service-account@norrin-radd.iam.gserviceaccount.com --key-file=$GOOGLE_APPLICATION_CREDENTIALS --project=norrin-radd
+      #     gcloud auth activate-service-account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com --key-file=$GOOGLE_APPLICATION_CREDENTIALS --project=norrin-radd
           
       #     gcloud artifacts print-settings python > ~/.pypirc
 
