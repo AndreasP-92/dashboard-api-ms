@@ -6,9 +6,9 @@ version: '3.8'
 
 services:
   search-service:
-    image: dashboard-api-authservice:latest
+    image: dashboard-api-ms:latest
     # image: ep-mern-searchservice:v3
-    container_name: ep-mern-authservice 
+    container_name: ep-api-ms 
     # stdin_open: true
     build:
       dockerfile: Dockerfile
