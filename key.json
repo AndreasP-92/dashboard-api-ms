@@ -1,0 +1,14 @@
+{
+    "type": "service_account",
+    "project_id": "hovedopgave-23",
+    "private_key_id": "45f8fcaf3a82e7cdc19eb77205cd2728d9b2556b",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDHtH2qnca6l7LB\n80ODNA6k7bGdc9SG906LRnCF6B69ird6F0wAzVchwvOwVlF38cX08/PYJ9q0SuQd\nuutN3MqbuVige8sOMiYkpbpIAienD9kROG10qV5lCPga388K0/1q4Kl/suJHjCha\njKfjc2QQsvdszBS38WwOomSQVq2cdWOk7S7SCnVE1rf4HZTZqOX7tZ0KKQjBbYZt\nJvcX+TyiMUbuR2OTbOVc5CfVl0ziXbqOmuqyqzisRtCIQTPtdKDcsoMTTATEOckK\nmCSjAFrr0z3XY0gmE0V3W4P3PytkUMh+3Nhn2MXKIQKInVWam9ZExz4wRc+6Q8dy\n1+hHT4UBAgMBAAECggEADPKVxy8NiGF3dH2qHeKNJIJIprWwzMNR81Owze27uHw6\n4w6Jne+yO30hQYiHJaimNfhvEc+brV7BpW/N+7FZ7Xi510XPZ282699W0X5aRcmQ\nQD6RUiP8+732H//ss34FCx3fv2jApPTgVOaTp/p+PVrtEb+1hCuB3v0GWhlUjjUs\n1fpFxIOMFelmKmZkTXgtd6ZNWJHXPK7mgGzVrisvIOYr6P+qVA7bB5fNLGl1AtX/\nTprMy6tFzZCNbd2WvCA9phqQ7jAfu6PUyU1yuFfHGMvzdDhT7VVrfJ7rih93EXuD\n7A3LogaK+2JyvlaMhVzBukGyULBANK3P3XNXa4s4sQKBgQDrVhWQuzM5H88aD4Y/\nEw0+BQJg3/MQNveOIWkT2p6fn7QP9OqecfQWtGQ3EddD5Zq+o26hbMdSUHhSKo2o\ndIC8ACyRVxrbl4GMXDsQEv7dAHK4EQJLxIOiijh5BEyLrekz8lV53TdiwIoberDG\nkdPdxiExSal5OS9OrrOtMD9ALQKBgQDZPXvfeQdHJITAFQWMnHb3zfxB9OD4cvSK\n+9Sn1V8dNzB36amwXIFbfpOJH2luXps19n5SZxVlfqttxbDbj6sQ4g2fwBrfkGYH\n9GtrF+YNR1CaAijTEgLIs0XbeEeQaY0mzORp0adpTspJoqmR3xJflKyktM9+/wAT\nHAh2rwjIpQKBgQCiONz0v5Y3sm2YkUsA/6kJL3rMPJPYgYt0NiOww+rELdp5hWKV\nhgez/vV14J569zMMZqxEKi/b1gya1yp/DJARCC2wolKpPG7YylsMYYu93Ck4KMFk\naTo0OQNkqEn7nw45+LpjHtKnCAIrnw9sUemx3nnS9+wS3BB4NIU2xSNUoQKBgEX7\nQIRlAKsyYHFgVEFPxiNd//1fXXmrzotXRNIsMk+/D6YRZ9CgfCt1QyHRNK2RXH6t\nwVPaUVI41BCwtqCET59IswrbX8zVP4kge9osALgWWSjDuVMFYlA1MDPbM3KaDhaJ\nuqs8Fqod75x5AhczvT99LYCBnrZSfzuotDFHgZThAoGBAI7wTEYhQi69YihjV+i/\nMsV6WvZ+7KbIazCwyIya9Zg6B7uqOKiEGfSvy2tY0Y26uR0etqWLjIOkbU39XcMv\nSC++3rFrDOFmxq7hh0foMyTBt6VNCrtCujozvmhRFGZGbXxhO4idSa/jg6as8t18\nYheWRZGeDUB9JF2emyGnkLMt\n-----END PRIVATE KEY-----\n",
+    "client_email": "dascboard-svc@hovedopgave-23.iam.gserviceaccount.com",
+    "client_id": "115680421061323064435",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dascboard-svc%40hovedopgave-23.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }
+  
