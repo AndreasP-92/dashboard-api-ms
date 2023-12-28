@@ -36,17 +36,17 @@ jobs:
       #   run: |-
       #     gcloud auth configure-docker us-central1-docker.pkg.dev
 
-      - name: "Docker auth"
-        run: |-
-          gcloud auth configure-docker us-central1--docker.pkg.dev --quiet
+      # - name: "Docker auth"
+      #   run: |-
+      #     gcloud auth configure-docker us-central1--docker.pkg.dev --quiet
       
-      # - name: Docker Auth
-      #   run: |
-      #     gcloud config set artifacts/repository  dashboard-repo
-      #     gcloud config set artifacts/location us-central1-docker.pkg.dev
-      #     gcloud config set account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
+      - name: Docker Auth
+        run: |
+          gcloud config set artifacts/repository  dashboard-repo
+          gcloud config set artifacts/location us-central1-docker.pkg.dev
+          gcloud config set account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
           
-      #     gcloud auth activate-service-account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com --key-file=$GOOGLE_APPLICATION_CREDENTIALS --project=hovedopgave-23
+          gcloud auth activate-service-account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com --key-file=$GOOGLE_APPLICATION_CREDENTIALS --project=hovedopgave-23
 
       - name: Build image
         run: docker compose -f docker-compose.yml build
