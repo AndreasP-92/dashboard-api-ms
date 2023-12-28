@@ -49,7 +49,7 @@ jobs:
         run: docker compose -f docker-compose.yml build
 
 
-      - name: Push Docker image to Azure Container Registry
+      - name: Push Docker image
         run: |
           docker tag ${{ env.IMAGE_NAME }}:latest us-central1-docker.pkg.dev-${{ env.IMAGE_NAME }}:1
           docker push us-central1-docker.pkg.dev-${{ env.IMAGE_NAME }}:1
