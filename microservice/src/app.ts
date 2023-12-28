@@ -7,6 +7,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
 import Swagger from './config/Swagger.js'
 import router from './Routes/RoutesProvider.js';
+import { Request, Response } from 'express';
 
 dotenv.config();
 
@@ -27,3 +28,7 @@ const port = process.env.PORT || 3002;
 app.listen(port, () =>
   console.log(`Listening on port ${port} in ${process.env.ENVIRONMENT}`)
 );
+
+router.get('/', (req:Request,res:Response) => {
+  res.send('Hello World');
+})

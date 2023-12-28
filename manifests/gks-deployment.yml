@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard-api-authservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard-api-authservice
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: dashboard-api-authservice
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux  # Update this line
+      containers:
+      - name: dashboard-api-authservice
+        # image: us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/dashboard-api:3
+        image: us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/dashboard-api:${BUILD_TAG}
+        # image: us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${BUILD_TAG}
+        # envFrom: 
+        # - configMapRef:
+        #     name: auth-config-map
+        ports:
+        - containerPort: 3001
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashboard-api-authservice
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 3001
+  selector:
+    app: dashboard-api-authservice

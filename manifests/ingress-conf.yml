@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: dashboard-api-authservice-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"  # Set the GKE Ingress class
+spec:
+  rules:
+  # - host: your.domain.com  # Set your domain here
+    http:
+      paths:
+      - path: /ms/auth
+        backend:
+          serviceName: dashboard-api-authservice
+          servicePort: 80
