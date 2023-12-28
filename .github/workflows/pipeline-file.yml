@@ -54,8 +54,8 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker tag ${{ env.IMAGE_NAME }}:latest us-central1-docker.pkg.dev-${{ env.IMAGE_NAME }}:1
-          docker push us-central1-docker.pkg.dev-${{ env.IMAGE_NAME }}:1
+          docker tag ${{ env.IMAGE_NAME }}:latest us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:1
+          docker push us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:1
 
 
 
