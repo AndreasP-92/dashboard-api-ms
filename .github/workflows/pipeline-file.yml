@@ -23,7 +23,7 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           project_id: hovedopgave-23
-          service_account: dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
+          service_account: dascboard-svcccc@hovedopgave-23.iam.gserviceaccount.com
           credentials_json: ${{ secrets.SERVICE_USER_CREDS_3 }}
 
       - name: 'Set up Cloud SDK'
