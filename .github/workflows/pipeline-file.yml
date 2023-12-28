@@ -38,7 +38,7 @@ jobs:
 
       - name: "Docker auth"
         run: |-
-          gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+          gcloud auth configure-docker us-central1--docker.pkg.dev --quiet
       
       # - name: Docker Auth
       #   run: |
