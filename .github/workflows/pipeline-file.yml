@@ -4,7 +4,7 @@ env:
   IMAGE_NAME: dashboard-api-ms
   BRANCH_NAME: ${{ github.ref}}
   BUILD_TAG: ${{ github.sha }}
-  GOOGLE_APPLICATION_CREDENTIALS: '${{ secrets.SERVICE_USER_CREDS_3 }}'
+  GOOGLE_APPLICATION_CREDENTIALS: '${{ secrets.SERVICE_USER_CREDS_2 }}'
 
 on:
   push:
@@ -17,33 +17,36 @@ jobs:
         uses: actions/checkout@v2
 
       - name: echo environment
-        run: echo '${{ secrets.SERVICE_USER_CREDS_3 }}'
+        run: echo '${{ secrets.SERVICE_USER_CREDS_2 }}'
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           project_id: hovedopgave-23
-          service_account: dascboard-svcccc@hovedopgave-23.iam.gserviceaccount.com
-          credentials_json: ${{ secrets.SERVICE_USER_CREDS_3 }}
+          # service_account: dascboard-svcccc@hovedopgave-23.iam.gserviceaccount.com
+          credentials_json: ${{ secrets.SERVICE_USER_CREDS_2 }}
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
         with:
-          project_id: '${{ env.PROJECT_ID }}'
+          project_id: hovedopgave-23
 
 
       # - name: 'Docker auth'
       #   run: |-
       #     gcloud auth configure-docker us-central1-docker.pkg.dev
 
+      - name: "Docker auth"
+        run: |-
+          gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
       
-      - name: Docker Auth
-        run: |
-          gcloud config set artifacts/repository  dashboard-repo
-          gcloud config set artifacts/location us-central1-docker.pkg.dev
-          gcloud config set account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
+      # - name: Docker Auth
+      #   run: |
+      #     gcloud config set artifacts/repository  dashboard-repo
+      #     gcloud config set artifacts/location us-central1-docker.pkg.dev
+      #     gcloud config set account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
           
-          gcloud auth activate-service-account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com --key-file=$GOOGLE_APPLICATION_CREDENTIALS --project=hovedopgave-23
+      #     gcloud auth activate-service-account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com --key-file=$GOOGLE_APPLICATION_CREDENTIALS --project=hovedopgave-23
 
       - name: Build image
         run: docker compose -f docker-compose.yml build
