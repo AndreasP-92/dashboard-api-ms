@@ -4,7 +4,7 @@ env:
   IMAGE_NAME: dashboard-api-ms
   BRANCH_NAME: ${{ github.ref}}
   BUILD_TAG: ${{ github.sha }}
-  GOOGLE_APPLICATION_CREDENTIALS: '${{ secrets.SERVICE_USER_CREDS_2 }}'
+  GOOGLE_APPLICATION_CREDENTIALS: '${{ secrets.SERVICE_USER_CREDS_3 }}'
 
 on:
   push:
@@ -17,14 +17,14 @@ jobs:
         uses: actions/checkout@v2
 
       - name: echo environment
-        run: echo ${{ secrets.SERVICE_USER_CREDS_2 }}
+        run: echo ${{ secrets.SERVICE_USER_CREDS_3 }}
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           project_id: hovedopgave-23
           service_account: dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
-          credentials_json: ${{ secrets.SERVICE_USER_CREDS_2 }}
+          credentials_json: ${{ secrets.SERVICE_USER_CREDS_3 }}
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
