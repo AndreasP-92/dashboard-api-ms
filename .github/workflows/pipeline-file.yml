@@ -76,4 +76,4 @@ jobs:
         run: locust -f Locust/Locustfile.py --headless --users 500 --spawn-rate 100 --run-time 2m --host http://34.135.100.245
 
       - name: Run Load Test
-        Lrun: locust -f Locust/locustfile.py --headless --users 2000 --spawn-rate 20 --run-time 10m --host http://34.135.100.245
+        run: locust -f Locust/locustfile.py --headless --users 2000 --spawn-rate 20 --run-time 10m --host http://34.135.100.245
