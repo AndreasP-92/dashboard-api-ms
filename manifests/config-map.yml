@@ -1,16 +1,27 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: v1
+kind: ConfigMap
 metadata:
-  name: ep-ms-auth-ingress
-spec:
-  ingressClassName: nginx
-  rules:
-  - http:
-      paths:
-      - path: /ms/auth
-        pathType: Prefix
-        backend:
-          service:
-            name: ep-mern-authservice
-            port:
-              number: 80
+  name: auth-config-map
+data:
+  DEV_SQL_HOST: "localhost"
+  DEV_SQL_PORT: "5432"
+  DEV_SQL_USER: "postgres"
+  DEV_SQL_PASS: "1234Ad"
+  DEV_SQL_DB: "dashboard"
+
+  SQL_CREATE_TEST_DATA: "0"
+  SQL_SYNC_DATA: "0"
+
+  PROD_SQL_HOST: "35.192.191.48"
+  PROD_SQL_PORT: "5432"
+  PROD_SQL_USER: "postgres"
+  PROD_SQL_PASS: "Eksamen23"
+  PROD_SQL_DB: "dashboard-auth"
+
+  ENVIRONMENT: "prod"
+
+  PORT: "3001"
+
+  JWT_PRIVATE_KEY: "AAJ-AWESOME-KEY"
+
+
