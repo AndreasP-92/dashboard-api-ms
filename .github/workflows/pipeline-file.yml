@@ -54,10 +54,9 @@ jobs:
         run: |
           kubectl rollout status deployment/dashboard-api-authservice
 
-  Performance_Test:
+  performance_Test:
     runs-on: ubuntu-latest
     steps:
-
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -65,8 +64,6 @@ jobs:
   
       - name: Install Locust
         run: pip install -r Locust/requirements.txt
-
-
 
       - name: Run Stress Test
         run: locust -f locustfile.py --headless --users 1000 --spawn-rate 50 --run-time 5m --host http://34.135.100.245
