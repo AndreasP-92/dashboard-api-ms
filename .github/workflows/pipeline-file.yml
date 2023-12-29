@@ -58,6 +58,12 @@ jobs:
           docker push us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:1
 
 
+      - name: Set up Kubeconfig
+        run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yml
+        env:
+          KUBECONFIG: ${{ runner.workspace }}/kubeconfig.yml
+
+
       - name: Apply Kubernetes manifest file
         run: |
           export BUILD_TAG=${{ env.BUILD_TAG }}
