@@ -70,6 +70,8 @@ jobs:
           envsubst < manifests/gks-deployment.yml | kubectl apply -f - --validate=false
       #     envsubst < manifests/templates/config-map.yml | kubectl apply -f - -n ep-mern --kubeconfig=config.yml
       #     envsubst < manifests/templates/ingress-config.yml | kubectl apply -f - -n ep-mern --kubeconfig=config.yml
+        env:
+          KUBECONFIG: ${{ runner.workspace }}/kubeconfig.yml
 
 
 
