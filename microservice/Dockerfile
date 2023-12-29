@@ -7,4 +7,4 @@ RUN npm install
 RUN npm install nodemon
 EXPOSE 3001
 # CMD ["npm", "run", "prod"]
-CMD ["node", "/microservice/dist/app.js"]
+CMD ["node", "/dist/app.js"]
