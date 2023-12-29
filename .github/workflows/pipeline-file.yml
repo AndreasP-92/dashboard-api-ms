@@ -70,10 +70,10 @@ jobs:
         run: pip install -r Locust/requirements.txt
 
       - name: Run Stress Test
-        run: locust -f locustfile.py --headless --users 1000 --spawn-rate 50 --run-time 5m --host http://34.135.100.245
+        run: locust -f Locust/Locustfile.py --headless --users 1000 --spawn-rate 50 --run-time 5m --host http://34.135.100.245
 
       - name: Run Spike Test
-        run: locust -f locustfile.py --headless --users 500 --spawn-rate 100 --run-time 2m --host http://34.135.100.245
+        run: locust -f Locust/Locustfile.py --headless --users 500 --spawn-rate 100 --run-time 2m --host http://34.135.100.245
 
       - name: Run Load Test
-        run: locust -f locustfile.py --headless --users 2000 --spawn-rate 20 --run-time 10m --host http://34.135.100.245
+        Lrun: locust -f Locust/locustfile.py --headless --users 2000 --spawn-rate 20 --run-time 10m --host http://34.135.100.245
