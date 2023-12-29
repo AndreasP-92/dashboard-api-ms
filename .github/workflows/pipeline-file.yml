@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: echo environment
-        run: echo '${{ secrets.SERVICE_USER_CREDS_2 }}'
+        run: echo '${{ secrets.KUBECONFIG }}'
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -58,20 +58,22 @@ jobs:
           docker push us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:1
 
 
-      # - name: Set up Kubeconfig
-      #   run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yml
-      #   env:
-      #     KUBECONFIG: ${{ runner.workspace }}/kubeconfig.yml
+      - name: Set up Kubeconfig
+        run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yml
+        env:
+          KUBECONFIG: ${{ runner.workspace }}/kubeconfig.yml
 
 
       - name: Apply Kubernetes manifest file
         run: |
           export BUILD_TAG=${{ env.BUILD_TAG }}
-          envsubst < manifests/gks-deployment.yml | kubectl apply -f - --kubeconfig=config.yml
+          kubectl apply -f ./manifest/gks-deployment.yml
+           
+        # envsubst < manifests/gks-deployment.yml | kubectl apply -f - --kubeconfig=config.yml --validate=false
       #     envsubst < manifests/templates/config-map.yml | kubectl apply -f - -n ep-mern --kubeconfig=config.yml
       #     envsubst < manifests/templates/ingress-config.yml | kubectl apply -f - -n ep-mern --kubeconfig=config.yml
-        # env:
-        #   KUBECONFIG: ${{ runner.workspace }}/kubeconfig.yml
+        env:
+          KUBECONFIG: ${{ runner.workspace }}/kubeconfig.yml
 
 
 
