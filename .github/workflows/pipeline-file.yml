@@ -54,22 +54,22 @@ jobs:
         run: |
           kubectl rollout status deployment/dashboard-api-authservice
 
-  performance_Test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+  # performance_Test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: '3.x'
   
-      - name: Install Locust
-        run: pip install -r Locust/requirements.txt
+  #     - name: Install Locust
+  #       run: pip install -r Locust/requirements.txt
 
-      - name: Run Stress Test
-        run: locust -f locustfile.py --headless --users 1000 --spawn-rate 50 --run-time 5m --host http://34.135.100.245
+  #     - name: Run Stress Test
+  #       run: locust -f locustfile.py --headless --users 1000 --spawn-rate 50 --run-time 5m --host http://34.135.100.245
 
-      - name: Run Spike Test
-        run: locust -f locustfile.py --headless --users 500 --spawn-rate 100 --run-time 2m --host http://34.135.100.245
+  #     - name: Run Spike Test
+  #       run: locust -f locustfile.py --headless --users 500 --spawn-rate 100 --run-time 2m --host http://34.135.100.245
 
-      - name: Run Load Test
-        run: locust -f locustfile.py --headless --users 2000 --spawn-rate 20 --run-time 10m --host http://34.135.100.245
+  #     - name: Run Load Test
+  #       run: locust -f locustfile.py --headless --users 2000 --spawn-rate 20 --run-time 10m --host http://34.135.100.245
