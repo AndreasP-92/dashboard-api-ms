@@ -59,21 +59,27 @@ jobs:
 
 
       - name: Set up Kubeconfig
-        run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yml
-        env:
-          KUBECONFIG: ${{ runner.workspace }}/kubeconfig.yml
+      #   run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yml
+      #   env:
+      #     KUBECONFIG: ${{ runner.workspace }}/kubeconfig.yml
+
+        uses: dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
+        with:
+          cluster_name: autopilot-cluster-1
+          location: hovedopgave-23
+          credentials: ${{ secrets.SERVICE_USER_CREDS_2 }}
 
 
       - name: Apply Kubernetes manifest file
         run: |
           export BUILD_TAG=${{ env.BUILD_TAG }}
-          kubectl apply -f manifests/gks-deployment.yml
+        # kubectl apply -f manifests/gks-deployment.yml
            
-        # envsubst < manifests/gks-deployment.yml | kubectl apply -f - --kubeconfig=config.yml --validate=false
+          envsubst < manifests/gks-deployment.yml | kubectl apply -f -
       #     envsubst < manifests/templates/config-map.yml | kubectl apply -f - -n ep-mern --kubeconfig=config.yml
       #     envsubst < manifests/templates/ingress-config.yml | kubectl apply -f - -n ep-mern --kubeconfig=config.yml
-        env:
-          KUBECONFIG: ${{ runner.workspace }}/kubeconfig.yml
+        # env:
+        #   KUBECONFIG: ${{ runner.workspace }}/kubeconfig.yml
 
 
 
