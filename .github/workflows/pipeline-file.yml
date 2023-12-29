@@ -54,9 +54,13 @@ jobs:
         run: |
           kubectl rollout status deployment/dashboard-api-authservice
 
-  performance_Test:
+  performance_test:
+    needs: build_and_push
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
