@@ -35,7 +35,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
         with:
           service_account_key: ${{ secrets.SERVICE_USER_CREDS_2 }}
-          install_component: 'gke-cloud-auth-plugin'
+          install_component: 'gke-gcloud-auth-plugin'
           project_id: hovedopgave-23
           export_default_credentials: true
 
