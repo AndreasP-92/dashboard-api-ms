@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(router);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(Swagger.options)));
 
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3001;
 
 app.listen(port, () =>
   console.log(`Listening on port ${port} in ${process.env.ENVIRONMENT}`)
