@@ -59,10 +59,6 @@ jobs:
 
 
       - name: Set up Kubeconfig
-      #   run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yml
-      #   env:
-      #     KUBECONFIG: ${{ runner.workspace }}/kubeconfig.yml
-
         uses: dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
         with:
           cluster_name: autopilot-cluster-1
