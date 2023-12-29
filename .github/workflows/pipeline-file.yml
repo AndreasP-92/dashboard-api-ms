@@ -36,40 +36,39 @@ jobs:
         run: |-
           gcloud auth configure-docker us-central1-docker.pkg.dev
 
-      # - name: "Docker auth"
-      #   run: |-
-      #     gcloud auth configure-docker us-central1--docker.pkg.dev --quiet
-      
-      # - name: Docker Auth
+      # - name: Build image
+      #   run: docker compose -f docker-compose.yml build
+
+
+      # - name: Push Docker image
       #   run: |
-      #     gcloud config set artifacts/repository  dashboard-repo
-      #     gcloud config set artifacts/location us-central1-docker.pkg.dev
-      #     gcloud config set account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
-          
-      #     gcloud auth activate-service-account dascboard-svc@hovedopgave-23.iam.gserviceaccount.com --key-file=$GOOGLE_APPLICATION_CREDENTIALS --project=hovedopgave-23
-
-      - name: Build image
-        run: docker compose -f docker-compose.yml build
-
-
-      - name: Push Docker image
-        run: |
-          docker tag ${{ env.IMAGE_NAME }}:latest us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:1
-          docker push us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:1
-
-
-      - name: Set up Kubeconfig
-        uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
+      #     docker tag ${{ env.IMAGE_NAME }}:latest us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:1
+      #     docker push us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:1
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
         with:
-          cluster_name: autopilot-cluster-1
-          location: hovedopgave-23
-          credentials: ${{ secrets.SERVICE_USER_CREDS_2 }}
+          project_id: hovedopgave-23
+          service_account_key: ${{ secrets.SERVICE_USER_CREDS_2 }}
+          export_default_credentials: true
 
-
-      - name: Apply Kubernetes manifest file
+      - name: deploy to gke
         run: |
           export BUILD_TAG=${{ env.BUILD_TAG }}
-          envsubst < manifests/gks-deployment.yml | kubectl apply -f -
+          gcloud container clusters get-credentials autopilot-cluster-1 --region us-central1 --project hovedopgave-23
+          kubectl apply -f manifests/gks-deployment.yml
+
+      # - name: Set up Kubeconfig
+      #   uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
+      #   with:
+      #     cluster_name: autopilot-cluster-1
+      #     location: hovedopgave-23
+      #     credentials: ${{ secrets.SERVICE_USER_CREDS_2 }}
+
+
+      # - name: Apply Kubernetes manifest file
+      #   run: |
+      #     export BUILD_TAG=${{ env.BUILD_TAG }}
+      #     envsubst < manifests/gks-deployment.yml | kubectl apply -f -
       #     envsubst < manifests/templates/config-map.yml | kubectl apply -f - -n ep-mern --kubeconfig=config.yml
       #     envsubst < manifests/templates/ingress-config.yml | kubectl apply -f - -n ep-mern --kubeconfig=config.yml
         # env:
