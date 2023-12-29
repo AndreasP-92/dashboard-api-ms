@@ -6,5 +6,4 @@ COPY ./ ./
 RUN npm install
 RUN npm install nodemon
 EXPOSE 3001
-# CMD ["npm", "run", "prod"]
-CMD ["node", "/dist/app.js"]
+CMD ["npm", "run", "build", "npm", "run", "prod"]
