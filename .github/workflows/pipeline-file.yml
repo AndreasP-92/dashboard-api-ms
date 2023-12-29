@@ -49,3 +49,15 @@ jobs:
           gcloud container clusters get-credentials autopilot-cluster-1 --region us-central1 --project hovedopgave-23
           envsubst < manifests/gks-deployment.yml | kubectl apply -f -
           envsubst < manifests/config-map.yml | kubectl apply -f -
+
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+  
+      - name: Install Locust
+        run: pip install -r Locust/requirements.txt
+
+      - name: Run Locust
+        run: locust -f Locust/Locustfile.py --headless --users 1000 --spawn-rate 10 --run-time 1h --host http://http://34.135.100.245
