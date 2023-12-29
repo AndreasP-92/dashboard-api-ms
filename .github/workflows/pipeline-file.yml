@@ -59,7 +59,7 @@ jobs:
 
 
       - name: Set up Kubeconfig
-        uses: dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
+        uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
         with:
           cluster_name: autopilot-cluster-1
           location: hovedopgave-23
