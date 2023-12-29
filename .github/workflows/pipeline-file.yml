@@ -60,4 +60,4 @@ jobs:
         run: pip install -r Locust/requirements.txt
 
       - name: Run Locust
-        run: locust -f Locust/Locustfile.py --headless --users 1000 --spawn-rate 10 --run-time 1m --host http://http://34.135.100.245
+        run: locust -f Locust/Locustfile.py --headless --users 1000 --spawn-rate 10 --run-time 1m --host http://34.135.100.245
