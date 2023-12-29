@@ -21,8 +21,8 @@ spec:
         "kubernetes.io/os": linux  # Update this line
       containers:
       - name: dashboard-api-authservice
-        image: us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/dashboard-api:3
-        # image: us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/dashboard-api:${BUILD_TAG}
+        # image: us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/dashboard-api:3
+        image: us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/dashboard-api:${BUILD_TAG}
         # image: us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${BUILD_TAG}
         # envFrom: 
         # - configMapRef:

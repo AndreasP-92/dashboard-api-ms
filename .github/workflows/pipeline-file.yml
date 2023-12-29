@@ -44,21 +44,21 @@ jobs:
         run: |-
           gcloud auth configure-docker us-central1-docker.pkg.dev
 
-      # - name: Build image
-      #   run: docker compose -f docker-compose.yml build
+      - name: Build image
+        run: docker compose -f docker-compose.yml build
 
 
-      # - name: Push Docker image
-      #   run: |
-      #     docker tag ${{ env.IMAGE_NAME }}:latest us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:1
-      #     docker push us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:1
+      - name: Push Docker image
+        run: |
+          docker tag ${{ env.IMAGE_NAME }}:latest us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:${{ env.BUILD_TAG }}
+          docker push us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:${{ env.BUILD_TAG }}
 
 
       - name: deploy to gke
         run: |
           export BUILD_TAG=${{ env.BUILD_TAG }}
           gcloud container clusters get-credentials autopilot-cluster-1 --region us-central1 --project hovedopgave-23
-          kubectl apply -f manifests/gks-deployment.yml
+          envsubst < manifests/gks-deployment.yml | kubectl apply -f -
 
       # - name: Set up Kubeconfig
       #   uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
