@@ -20,7 +20,7 @@ class MyUser(HttpUser):
     def login(self):
         response = self.client.post("/api/post/login", json={"email": "a@a.dk", "password": "123", "key": "AAJ-AWESOME-KEY"})
         if response.status_code != 202:
-            raise Exception(f"Login failed with status code {response.status_code} and response {response.text} and json {response.json()}")
+            raise Exception(f"Login failed with status code {response.status_code} and response {response.text}")
         else:
             # print(response.json())
             self.generatedToken = response.json()["generatedToken"]
