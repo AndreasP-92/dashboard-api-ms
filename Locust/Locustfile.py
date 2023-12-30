@@ -3,9 +3,19 @@ from locust import HttpUser, task, between
 class MyUser(HttpUser):
     wait_time = between(0, 1)
     generatedToken = ""
+    failed_requests = 0
+
+    def on_request_failure(self, request_type, name, response_time, exception):
+        self.failed_requests += 1
 
     def on_start(self):
         self.login()
+
+    def on_stop(self):
+        failure_rate = self.failed_requests / self.total
+        print(f"Failure rate: {failure_rate}")
+        if failure_rate > 0.6:  # Adjust the threshold as needed
+            self.environment.runner.quit()
 
     def login(self):
         response = self.client.post("/api/post/login", json={"email": "a@a.dk", "password": "123", "key": "AAJ-AWESOME-KEY"})
