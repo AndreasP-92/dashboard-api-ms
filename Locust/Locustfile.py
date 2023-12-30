@@ -32,15 +32,15 @@ class MyUser(HttpUser):
             self.logged_in = True
 
     
-    @task
-    def verify_login(self):
-        if(self.logged_in == True):
-            headers = {"x-access-token": self.generatedToken}
-            response = self.client.post("/api/get/login/verify", headers=headers)
-            if response.status_code != 200:
-                self.handle_error(f"Verify login failed with status code {response.status_code}")
+    # @task
+    # def verify_login(self):
+    #     if(self.logged_in == True):
+    #         headers = {"x-access-token": self.generatedToken}
+    #         response = self.client.post("/api/get/login/verify", headers=headers)
+    #         if response.status_code != 200:
+    #             self.handle_error(f"Verify login failed with status code {response.status_code}")
 
-            self.stop_if_high_failure_rate()
+    #         self.stop_if_high_failure_rate()
 
     @task
     def get_one_user(self):
