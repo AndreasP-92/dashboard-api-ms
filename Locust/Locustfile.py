@@ -23,13 +23,13 @@ class MyUser(HttpUser):
     def on_stop(self):
         self.stop_if_high_failure_rate()
 
-    def login(self):
-        response = self.client.post("/api/post/login", json={"email": "a@a.dk", "password": "123", "key": "AAJ-AWESOME-KEY"})
-        if response.status_code != 202:
-            raise Exception(f"Login failed with status code {response.status_code} and response {response.text}")
-        else:
-            self.generatedToken = response.json()["generatedToken"]
-            self.logged_in = True
+    # def login(self):
+    #     response = self.client.post("/api/post/login", json={"email": "a@a.dk", "password": "123", "key": "AAJ-AWESOME-KEY"})
+    #     if response.status_code != 202:
+    #         raise Exception(f"Login failed with status code {response.status_code} and response {response.text}")
+    #     else:
+    #         self.generatedToken = response.json()["generatedToken"]
+    #         self.logged_in = True
 
     
     # @task
