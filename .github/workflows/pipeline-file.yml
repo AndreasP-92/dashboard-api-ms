@@ -49,6 +49,21 @@ jobs:
     needs: build_and_push
     runs-on: ubuntu-latest
     steps:
+      - name: Set up gcloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: hovedopgave-23
+          service_account_key: ${{ secrets.SERVICE_USER_CREDS_2 }}
+          install_components: 'gke-gcloud-auth-plugin'
+          export_default_credentials: true
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: hovedopgave-23
+          service_account: dascboard-svc@hovedopgave-23.iam.gserviceaccount.com
+          credentials_json: ${{ secrets.SERVICE_USER_CREDS_2 }}
+
       - name: deploy to gke
         run: |
           export BUILD_TAG=${{ env.BUILD_TAG }}
