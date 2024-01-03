@@ -8,7 +8,6 @@ env:
 
 on:
   push:
-    - master
 
 jobs:
   build_and_push:
