@@ -37,13 +37,18 @@ jobs:
 
       - name: Build image
         run: docker compose -f docker-compose.yml build
-      
 
       - name: Push Docker image
+        if: env.BRANCH_NAME == 'refs/heads/master'
         run: |
           docker tag ${{ env.IMAGE_NAME }}:latest us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:${{ env.BUILD_TAG }}
           docker push us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:${{ env.BUILD_TAG }}
 
+  deploy_to_gke:
+    needs: build_and_push
+    if: env.BRANCH_NAME == 'refs/heads/master'
+    runs-one: ubuntu-latest
+    steps:
       - name: deploy to gke
         run: |
           export BUILD_TAG=${{ env.BUILD_TAG }}
@@ -56,8 +61,7 @@ jobs:
           kubectl rollout status deployment/dashboard-api-authservice
 
   performance_test:
-    needs: build_and_push
-    if: env.BRANCH_NAME == 'refs/heads/master'
+    needs: deploy_to_gke
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
