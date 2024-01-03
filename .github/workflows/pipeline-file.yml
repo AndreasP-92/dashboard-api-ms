@@ -45,9 +45,9 @@ jobs:
           docker push us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:${{ env.BUILD_TAG }}
 
   deploy_to_gke:
-    if: env.BRANCH_NAME == 'refs/heads/master'
     needs: build_and_push
-    runs-one: ubuntu-latest
+    if: env.BRANCH_NAME == 'refs/heads/master'
+    runs-on: ubuntu-latest
     steps:
       - name: deploy to gke
         run: |
