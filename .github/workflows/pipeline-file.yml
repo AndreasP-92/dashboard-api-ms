@@ -8,6 +8,7 @@ env:
 
 on:
   push:
+    - master
 
 jobs:
   build_and_push:
@@ -37,25 +38,28 @@ jobs:
 
       - name: Build image
         run: docker compose -f docker-compose.yml build
+      
+      if: env.BRANCH_NAME == 'refs/heads/master'
 
-      - name: Push Docker image
-        run: |
-          docker tag ${{ env.IMAGE_NAME }}:latest us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:${{ env.BUILD_TAG }}
-          docker push us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:${{ env.BUILD_TAG }}
+        - name: Push Docker image
+          run: |
+            docker tag ${{ env.IMAGE_NAME }}:latest us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:${{ env.BUILD_TAG }}
+            docker push us-central1-docker.pkg.dev/hovedopgave-23/dashboard-repo/${{ env.IMAGE_NAME }}:${{ env.BUILD_TAG }}
 
-      - name: deploy to gke
-        run: |
-          export BUILD_TAG=${{ env.BUILD_TAG }}
-          gcloud container clusters get-credentials autopilot-cluster-1 --region us-central1 --project hovedopgave-23
-          envsubst < manifests/gks-deployment.yml | kubectl apply -f -
-          envsubst < manifests/config-map.yml | kubectl apply -f -
+        - name: deploy to gke
+          run: |
+            export BUILD_TAG=${{ env.BUILD_TAG }}
+            gcloud container clusters get-credentials autopilot-cluster-1 --region us-central1 --project hovedopgave-23
+            envsubst < manifests/gks-deployment.yml | kubectl apply -f -
+            envsubst < manifests/config-map.yml | kubectl apply -f -
 
-      - name: Wait for deployment to be ready
-        run: |
-          kubectl rollout status deployment/dashboard-api-authservice
+        - name: Wait for deployment to be ready
+          run: |
+            kubectl rollout status deployment/dashboard-api-authservice
 
   performance_test:
     needs: build_and_push
+    if: env.BRANCH_NAME == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
