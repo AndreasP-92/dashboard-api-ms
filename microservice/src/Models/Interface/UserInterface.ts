@@ -8,6 +8,7 @@ interface User {
   IsActive: boolean;
   UserRoleId: Number;
   CompanyId: Number;
+  DeletedAt: Date;
 }
 
 export default User;

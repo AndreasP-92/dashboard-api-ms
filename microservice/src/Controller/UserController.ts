@@ -16,12 +16,13 @@ class UserController {
             IsActive: false,
             UserRoleId: UserRoleId ? UserRoleId : null,
             CompanyId: CompanyId ? CompanyId : null,
+            DeletedAt: null,
         };
 
         const userRepository = new UserRepository();
         userRepository.setUser(user);
 
-        const result:ObjectToReturn = await userRepository.createUser();
+        const result: ObjectToReturn = await userRepository.createUser();
 
         return res.status(200).json(result);
     }
@@ -31,7 +32,7 @@ class UserController {
 
         const userRepository = new UserRepository();
 
-        const result:ObjectToReturn = await userRepository.getUserById(id);
+        const result: ObjectToReturn = await userRepository.getUserById(id);
 
         return res.status(200).json(result);
     }
@@ -49,6 +50,7 @@ class UserController {
             IsActive: updatedUser.IsActive ? updatedUser.IsActive : false,
             UserRoleId: updatedUser.UserRoleId ? updatedUser.UserRoleId : null,
             CompanyId: updatedUser.CompanyId ? updatedUser.CompanyId : null,
+            DeletedAt: null,
         }
 
         const userRepository = new UserRepository();
@@ -64,7 +66,7 @@ class UserController {
 
         const userRepository = new UserRepository();
 
-        const result:ObjectToReturn = await userRepository.getUserByEmail(email);
+        const result: ObjectToReturn = await userRepository.getUserByEmail(email);
 
         return res.status(200).json(result);
     }
@@ -72,7 +74,7 @@ class UserController {
     async getAllUsers(req: Request, res: Response): Promise<Response> {
         const userRepository = new UserRepository();
 
-        const users:ObjectToReturn = await userRepository.getAllUsers();
+        const users: ObjectToReturn = await userRepository.getAllUsers();
 
         return res.status(200).json(users);
     }
@@ -82,7 +84,7 @@ class UserController {
 
         const userRepository = new UserRepository();
 
-        const result:ObjectToReturn = await userRepository.deleteUserById(id);
+        const result: ObjectToReturn = await userRepository.deleteUserById(id);
 
         return res.status(200).json(result);
     }
