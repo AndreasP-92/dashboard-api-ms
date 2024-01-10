@@ -8,7 +8,7 @@ import LogRepository from "./LogRepositroy.js";
 import UserInterface from '../Models/Interface/UserInterface.js';
 import ValidatedUserToReturnModel from '../Models/Types/ValidatedUserToReturnModel.js';
 
-class UserRepository{
+class UserRepository {
     Id: number;
     Email: string;
     Password: string;
@@ -20,11 +20,11 @@ class UserRepository{
     objectToReturn = new ObjectToReturn({}, true, "", 200);
     log = new LogRepository();
 
-    constructor(){
+    constructor() {
 
     }
 
-    setUser(user: UserInterface): void{
+    setUser(user: UserInterface): void {
         this.Id = user.Id;
         this.Email = user.Email;
         this.Password = user.Password;
@@ -33,8 +33,8 @@ class UserRepository{
         this.user = user;
     }
 
-    async createUser(): Promise<ObjectToReturn> {    
-        try{
+    async createUser(): Promise<ObjectToReturn> {
+        try {
             this.Password = await bcrypt.hash(this.Password, 10);
             this.user.Password = this.Password;
             const data = await UserModel.create(this.user);
@@ -45,7 +45,7 @@ class UserRepository{
             await this.log.insertLog();
 
             return this.objectToReturn;
-        }catch(error){
+        } catch (error) {
             this.objectToReturn.success = false;
             this.objectToReturn.errorMsg = "OOPS, something went wrong while trying to insert user" + error;
             this.objectToReturn.status = 405;
@@ -56,22 +56,22 @@ class UserRepository{
 
             return this.objectToReturn;
         }
-    
+
     }
 
-    async getUserById(Id: number): Promise<ObjectToReturn>{
-        try{
-            const data = await UserModel.findByPk(Id,{
-                include:[
-                    {model: UserRoleModel},
-                    {model: CompanyModel}
+    async getUserById(Id: number): Promise<ObjectToReturn> {
+        try {
+            const data = await UserModel.findByPk(Id, {
+                include: [
+                    { model: UserRoleModel },
+                    { model: CompanyModel }
                 ]
             });
 
             this.objectToReturn.object = data;
 
             return this.objectToReturn;
-        }catch(error){
+        } catch (error) {
             this.objectToReturn.success = false;
             this.objectToReturn.errorMsg = "OOPS, something went wrong while trying to get user by Id" + error;
             this.objectToReturn.status = 405;
@@ -86,11 +86,11 @@ class UserRepository{
 
     async getUserByEmail(email: string): Promise<ObjectToReturn> {
         try {
-            const data = await UserModel.findOne({ 
+            const data = await UserModel.findOne({
                 where: { Email: email },
                 include: [
-                    {model: UserRoleModel},
-                    {model: CompanyModel}
+                    { model: UserRoleModel },
+                    { model: CompanyModel }
                 ]
             });
 
@@ -110,19 +110,19 @@ class UserRepository{
         }
     }
 
-    async updateUserById(): Promise<ObjectToReturn>{
-        try{
+    async updateUserById(): Promise<ObjectToReturn> {
+        try {
             this.user.Password = await bcrypt.hash(this.Password, 10);
-            const data = await UserModel.update(this.user, 
+            const data = await UserModel.update(this.user,
                 {
-                    where: {Id: this.Id},
+                    where: { Id: this.Id },
                 }
             );
 
             this.objectToReturn.object = data;
 
             return this.objectToReturn;
-        }catch(error){
+        } catch (error) {
             this.objectToReturn.success = false;
             this.objectToReturn.errorMsg = "OOPS, something went wrong while trying to update user" + error;
             this.objectToReturn.status = 405;
@@ -135,14 +135,14 @@ class UserRepository{
         }
     }
 
-    async deleteUserById(Id: number): Promise<ObjectToReturn>{
-        try{
-            const data = await UserModel.destroy({where: {Id: Id}});
+    async deleteUserById(Id: number): Promise<ObjectToReturn> {
+        try {
+            const data = await UserModel.destroy({ where: { Id: Id } });
 
             this.objectToReturn.object = data;
 
             return this.objectToReturn;
-        }catch(error){
+        } catch (error) {
             this.objectToReturn.success = false;
             this.objectToReturn.errorMsg = "OOPS, something went wrong while trying to delete user" + error;
             this.objectToReturn.status = 405;
@@ -158,9 +158,9 @@ class UserRepository{
     async getAllUsers(): Promise<ObjectToReturn> {
         try {
             const data = await UserModel.findAll({
-                include:[
-                    {model: UserRoleModel},
-                    {model: CompanyModel}
+                include: [
+                    { model: UserRoleModel },
+                    { model: CompanyModel }
                 ]
             });
 
@@ -180,13 +180,13 @@ class UserRepository{
         }
     }
 
-    async validateUser (email:string, password:string): Promise<ValidatedUserToReturnModel> {
+    async validateUser(email: string, password: string): Promise<ValidatedUserToReturnModel> {
         try {
             const data = await UserModel.findOne({
-                where: { Email: email},
+                where: { Email: email },
                 include: [
-                    {model: UserRoleModel},
-                    {model: CompanyModel}
+                    { model: UserRoleModel },
+                    { model: CompanyModel }
                 ]
             });
 
@@ -198,5 +198,32 @@ class UserRepository{
             return new ValidatedUserToReturnModel(0, false, false, {}, "OOPS, something went wrong valIdateUser" + error, 405)
         }
     }
+
+    async getAllUsersSoft() {
+        try {
+            const data = await UserModel.findAll({
+                paranoid: false,
+                include: {
+                    model: UserModel,
+                    attributes: ['role']
+                }
+            });
+
+
+            return {
+                success: true,
+                object: data
+            }
+        }
+        catch (error) {
+            return {
+                success: false,
+                object: {},
+                msg: "OOPS, something went wrong in getAllUsers" + error,
+                status: 405
+            }
+        }
+    }
+
 }
 export default UserRepository;

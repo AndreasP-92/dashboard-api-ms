@@ -11,7 +11,7 @@ import { Request, Response } from 'express';
 
 dotenv.config();
 
-if(parseInt(process.env.SQL_SYNC_DATA) === 1){
+if (parseInt(process.env.SQL_SYNC_DATA) === 1) {
   syncDb.synchronizeDatabase();
 }
 
@@ -29,6 +29,6 @@ app.listen(port, () =>
   console.log(`Listening on port ${port} in ${process.env.ENVIRONMENT}`)
 );
 
-router.get('/', (req:Request,res:Response) => {
+router.get('/', (req: Request, res: Response) => {
   res.send('Hello World');
 })
